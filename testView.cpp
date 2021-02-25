@@ -250,11 +250,11 @@ void CtestView::OnLButtonDown(UINT nFlags, CPoint point)
 void CtestView::OnLab2CaptureScreenshot()
 {
 	CCaptureImage CCapture;
-	CRect Rect;
+	/*CRect Rect;
 	Rect.top =0;
 	Rect.bottom = 1000;
 	Rect.left = 0;
-	Rect.right = 1000;
+	Rect.right = 1000;*/
 
 	CCapture.CaptureScreen(targetArea);
 
