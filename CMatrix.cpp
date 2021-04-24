@@ -165,6 +165,15 @@ else
 return Temp;
 }
 
+CMatrix CMatrix::operator*(double x)
+{
+	CMatrix Temp(n_rows, n_cols);
+	for (int i = 0; i < n_rows; i++)
+		for (int j = 0; j < n_cols; j++) 
+			Temp(i, j) = (*this)(i, j) * x;
+	return Temp;
+}
+
 //---------------------------------------------------------------------------------
 CMatrix CMatrix::operator=(const CMatrix& M)
 // Оператор присваивания M1=M
@@ -526,5 +535,21 @@ CMatrix CMatrix::SphereToCart()
 
 	return R;
 
+
+}
+
+const double pi = 3.14;
+
+ CMatrix CMatrix::RangeVector(double min, double max, double inc)
+{
+	// Статические метод. Возвращает ряд от min до max с шагом +inc
+	int vecLength = (max-min)/inc;
+	CMatrix X = CMatrix(vecLength);
+	X(0) = min;
+	for (int i = 1; i < vecLength - 1; i++)
+	{
+		X(i) = X(i - 1) + inc;
+	}
+	return X;
 
 }

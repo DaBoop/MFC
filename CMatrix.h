@@ -16,6 +16,7 @@ public:
 	CMatrix operator-();			    // Оператор "-"
 	CMatrix operator=(const CMatrix&);	// Оператор "Присвоить":    M1=M2
 	CMatrix operator*(CMatrix&);        // Оператор "Произведение": М1*М2
+	CMatrix operator*(double x);        // Оператор "Произведение": М1*x
 	CMatrix operator+(CMatrix&);	    // Оператор "+": M1+M2
 	CMatrix operator-(CMatrix&);	    // Оператор "-": M1-M2
 	CMatrix operator+(double);		    // Оператор "+": M+a
@@ -44,6 +45,7 @@ public:
 	CMatrix CMatrix::VectorMult(CMatrix& V2);
 	double CMatrix::CosV1V2(CMatrix& V2);
 	CMatrix CMatrix::SphereToCart();
+	CMatrix static CMatrix::RangeVector(double min, double max, double inc);
 };
 
 

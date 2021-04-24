@@ -24,13 +24,29 @@
 #define ID_LAB2_CAPTURESCREENSHOT       32776
 #define ID_Menu                         32778
 #define ID_LAB2_LOADBMP                 32781
+#define ID_LAB3_SINX                    32782
+#define ID_LAB3_XSQUARE                 32783
+#define ID_LAB3_SQRTXSINX               32784
+#define ID_LAB3_XCUBE                   32785
+#define ID_LAB3_ALL                     32786
+#define ID_LAB4_SOLARSYSTEM             32787
+#define ID_LAB4_SOLARSYSTEM32787        32787
+#define ID_LAB6_FUNCTION1               32788
+#define ID_LAB6_FUNCTION2               32789
+#define ID_LAB6_FUNCTION3               32790
+#define ID_LAB8_DIFFUSESPHERE           32791
+#define ID_LAB8_MIRRORSPHERE            32792
+#define ID_LAB5                         32793
+#define ID_LAB9                         32794
+#define ID_LAB9_BEZIER                  32795
+#define ID_LAB9_LAGR                    32796
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        310
-#define _APS_NEXT_COMMAND_VALUE         32782
+#define _APS_NEXT_COMMAND_VALUE         32797
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

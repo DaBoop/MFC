@@ -13,60 +13,144 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Core">
+      <UniqueIdentifier>{7cd172f6-f2da-4ac4-b0bb-5425c5c33b5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Lab 2">
+      <UniqueIdentifier>{289a487c-60f4-4910-b54a-6d733a1b786d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Lab 3">
+      <UniqueIdentifier>{a918e034-d06d-4c34-8c56-7230e9e8b806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Lab 1">
+      <UniqueIdentifier>{3665b4c2-64fb-467f-9fc1-a719b0a87c7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Core">
+      <UniqueIdentifier>{3e3932b1-2a58-4673-81e8-0b45265552ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Lab 2">
+      <UniqueIdentifier>{8d6db516-6874-4703-bcb9-d8556b32cb83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Lab 1">
+      <UniqueIdentifier>{1a7e6565-21a7-4964-8a6d-42d270022c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Lab 4">
+      <UniqueIdentifier>{c41a49c9-ed3e-405f-87ac-48e3e20bd4fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Lab 3">
+      <UniqueIdentifier>{1f8546de-d803-4b85-bbe2-3f50cb2b6ef0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Lab 4">
+      <UniqueIdentifier>{373e3f84-eec6-4436-aa4c-edbab753004e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Lab5">
+      <UniqueIdentifier>{d0b9412a-7ced-476f-bd36-d361170c9121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Lab5">
+      <UniqueIdentifier>{edbe300a-fac7-423b-8236-bf51d1cb4d98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Lab7">
+      <UniqueIdentifier>{273e9b8d-ab95-43d5-b839-62b3b8029a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Lab7">
+      <UniqueIdentifier>{7794cb97-8c59-4c74-b1fa-d60acc2c064c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Lab8">
+      <UniqueIdentifier>{3c6e1d6a-a138-4d64-ad3a-9ab17fa09553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Lab8">
+      <UniqueIdentifier>{09c0ee5f-89e1-4361-914e-c9aa47c04412}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="MainFrm.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="testDoc.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="testView.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="testDoc.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="testView.h">
+      <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>Файлы заголовков\Core</Filter>
     </ClInclude>
     <ClInclude Include="CMatrix.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Lab 1</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Файлы заголовков\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AlterCords.h">
+      <Filter>Файлы заголовков\Lab 3</Filter>
     </ClInclude>
     <ClInclude Include="CaptureImage.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\Lab 2</Filter>
+    </ClInclude>
+    <ClInclude Include="СSunSystem.h">
+      <Filter>Файлы заголовков\Lab 4</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib.h">
+      <Filter>Файлы заголовков\Lab 4</Filter>
+    </ClInclude>
+    <ClInclude Include="LibPyramid.h">
+      <Filter>Файлы заголовков\Lab5</Filter>
+    </ClInclude>
+    <ClInclude Include="LibSurface.h">
+      <Filter>Файлы заголовков\Lab7</Filter>
+    </ClInclude>
+    <ClInclude Include="LibLabs3D.h">
+      <Filter>Файлы заголовков\Lab8</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="MainFrm.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="testDoc.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="testView.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="CMatrix.cpp">
+      <Filter>Исходные файлы\Lab 1</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Core</Filter>
     </ClCompile>
-    <ClCompile Include="CMatrix.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="testDoc.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Исходные файлы\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="testView.cpp">
+      <Filter>Исходные файлы\Core</Filter>
     </ClCompile>
     <ClCompile Include="CaptureImage.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\Lab 2</Filter>
+    </ClCompile>
+    <ClCompile Include="AlterCords.cpp">
+      <Filter>Исходные файлы\Lab 3</Filter>
+    </ClCompile>
+    <ClCompile Include="СSunSystem.cpp">
+      <Filter>Исходные файлы\Lab 4</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib.cpp">
+      <Filter>Исходные файлы\Lab 4</Filter>
+    </ClCompile>
+    <ClCompile Include="LibPyramid.cpp">
+      <Filter>Исходные файлы\Lab5</Filter>
+    </ClCompile>
+    <ClCompile Include="LibSurface.cpp">
+      <Filter>Исходные файлы\Lab7</Filter>
+    </ClCompile>
+    <ClCompile Include="LibLabs3D.cpp">
+      <Filter>Исходные файлы\Lab8</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

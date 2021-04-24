@@ -20,16 +20,36 @@
 #include "CMatrix.h"
 #include "Resource.h"
 #include "CaptureImage.h"
+#include "AlterCords.h"
+#include "СSunSystem.h"
+#include "Lib.h"
+#include "LibSurface.h"
+#include "LibLabs3D.h"
 // CtestView
 
 IMPLEMENT_DYNCREATE(CtestView, CView)
 
 BEGIN_MESSAGE_MAP(CtestView, CView)
+	ON_WM_PAINT()
+	ON_WM_SIZE()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_LBUTTONDOWN()
 	ON_COMMAND(ID_LAB1_MULTIPLY, &CtestView::OnLab1Multiply)
 	ON_COMMAND(ID_LAB2_CAPTURESCREENSHOT, &CtestView::OnLab2CaptureScreenshot)
 	ON_COMMAND(ID_LAB2_LOADBMP, &CtestView::OnLab2LoadBMP)
+	ON_COMMAND(ID_LAB3_SINX, &CtestView::OnLab3Sinx)
+	ON_COMMAND(ID_LAB3_XCUBE, &CtestView::OnLab3XCube)
+	ON_COMMAND(ID_LAB3_SQRTXSINX, &CtestView::OnLab3SqrtXSinX)
+	ON_COMMAND(ID_LAB3_XSQUARE, &CtestView::OnLab3XSquare)
+	ON_COMMAND(ID_LAB3_ALL, &CtestView::OnLab3All)
+	ON_COMMAND(ID_LAB4_SOLARSYSTEM, &CtestView::OnLab4Solarsystem)
+	ON_COMMAND(ID_LAB6_FUNCTION1, &CtestView::OnLab6Function1)
+	ON_COMMAND(ID_LAB6_FUNCTION2, &CtestView::OnLab6Function2)
+	ON_COMMAND(ID_LAB6_FUNCTION3, &CtestView::OnLab6Function3)
+	ON_COMMAND(ID_LAB8_DIFFUSESPHERE, &CtestView::OnLab8Diffusesphere)
+	ON_COMMAND(ID_LAB8_MIRRORSPHERE, &CtestView::OnLab8Mirrorsphere)
+	ON_COMMAND(ID_LAB9_BEZIER, &CtestView::OnLab9Bezier)
+	ON_COMMAND(ID_LAB9_LAGR, &CtestView::OnLab9Lagr)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение CtestView
@@ -37,6 +57,18 @@ END_MESSAGE_MAP()
 CtestView::CtestView() noexcept
 {
 	// TODO: добавьте код создания
+	Index = 0;
+	VA.RedimMatrix(4);
+	VB.RedimMatrix(4);
+	VC.RedimMatrix(4);
+	VD.RedimMatrix(4);
+	//PView.RedimMatrix(4);
+	PView.RedimMatrix(3);
+	PSourceLight.RedimMatrix(3);
+	//VA(3)=VB(3)=VC(3)=VD(3)=PView(3)=1;
+	VA(3) = VB(3) = VC(3) = VD(3) = 1;
+	IsData = 0;
+	MasPOINT = NULL;
 
 }
 
@@ -54,16 +86,52 @@ BOOL CtestView::PreCreateWindow(CREATESTRUCT& cs)
 
 // Рисование CtestView
 
-void CtestView::OnDraw(CDC* /*pDC*/)
+void CtestView::OnDraw(CDC* /*pf*/)
 {
-	CtestDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	if (!pDoc)
-		return;
+
+	CDC* dc = GetDC();
+	CString ss;
+	if (Index == 1)Graph1.Draw(*dc);
+	if (Index == 2)Graph2.Draw(*dc);
+	if (Index == 3)Graph3.Draw(*dc);
+	if (Index == 4)
+	{
+		dc -> Rectangle(RW);
+		DrawLightSphere(*dc, Radius, PView, PSourceLight, RW, Color, TypeModel);
+	}
+	if (Index == 5)
+	{
+		// Одна линия		
+		PenLine.Set(PS_SOLID, 0, RGB(0, 0, 0));
+		Graph.SetPenLine(PenLine);
+		Graph.Draw(*dc, true);
+		// Вторая линия линия		
+		PenLine.Set(PS_SOLID, 2, RGB(255, 0, 0));
+		Graph.SetPenLine(PenLine);
+		Graph.DrawBezier(*dc, N_Bezier);
+	}
+
 
 	// TODO: добавьте здесь код отрисовки для собственных данных
 }
 
+void CtestView::OnSize(UINT nType, int cx, int cy)
+{
+	CWnd::OnSize(nType, cx, cy);
+	if ((Index == 1) || (Index == 2) || (Index == 3))
+	{
+		int dx = 50, dy = 50;
+		if ((cx > 3 * dx) && (cy > 3 * dy))
+		{
+			CRect  WinRect;
+			this->GetClientRect(WinRect);
+			WinRect.DeflateRect(dx, dy);
+			if (Index == 1)Graph1.SetWinRect(WinRect);
+			if (Index == 2)Graph2.SetWinRect(WinRect);
+			if (Index == 3)Graph3.SetWinRect(WinRect);
+		}
+	}
+}
 
 // Диагностика CtestView
 
@@ -273,4 +341,305 @@ void CtestView::OnLab2LoadBMP()
 	ReleaseDC(dc);
 
 	
+}
+
+//const double pi = 3.14;
+CMyPen pen = CMyPen();
+CPlot2D plotter = CPlot2D();
+
+void CtestView::DrawSinX(CRect RW, int mode)
+{
+	pen.Set(PS_SOLID, 1, RGB(255, 0, 0));
+
+	CDC* dc = GetDC();
+	int vecLength = 6 * pi / (pi / 36);
+	plotter.SetPenLine(pen);
+
+	CMatrix Y = CMatrix(vecLength);
+	CMatrix X = CMatrix::RangeVector(-3 * pi, 3 * pi, pi / 36);
+	for (int i = 0; i < vecLength - 1; i++)
+	{
+		Y(i) = sin(X(i)) / X(i);
+	}
+
+	CRect WndRect = RW;
+	plotter.SetParams(X, Y, WndRect);
+
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	plotter.SetRS(SpcRect);
+	SetMyMode(*dc, SpcRect, WndRect, mode);
+	plotter.Draw(*dc, false);
+
+}
+void CtestView::DrawXCube(CRect RW, int mode)
+{
+
+	pen.Set(PS_SOLID, 1, RGB(0, 255, 0));
+
+	CDC* dc = GetDC();
+	int vecLength = 10 / 0.25;
+	plotter.SetPenLine(pen);
+
+
+	pen.Set(PS_SOLID, 2, RGB(0, 0, 255));
+	plotter.SetPenAxis(pen);
+
+	CMatrix Y = CMatrix(vecLength);
+	CMatrix X = CMatrix::RangeVector(-5, 5, 0.25);
+	for (int i = 0; i < vecLength - 1; i++)
+	{
+		Y(i) = pow(X(i), 3);
+	}
+
+	CRect WndRect = RW;
+	plotter.SetParams(X, Y, WndRect);
+
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	plotter.SetRS(SpcRect);
+	SetMyMode(*dc, SpcRect, WndRect, mode);
+	plotter.Draw(*dc, true);
+}
+void CtestView::DrawSqrtXSinX(CRect RW, int mode)
+{
+	pen.Set(PS_SOLID, 3, RGB(255, 0, 0));
+
+	CDC* dc = GetDC();
+	int vecLength = 6 * pi / (pi / 36);
+	plotter.SetPenLine(pen);
+
+	CMatrix Y = CMatrix(vecLength);
+	CMatrix X = CMatrix::RangeVector(0, 6*pi, pi/36);
+	for (int i = 0; i < vecLength - 1; i++)
+	{
+		Y(i) = sqrt(X(i))*sin(X(i));
+	}
+
+	CRect WndRect = RW;
+	plotter.SetParams(X, Y, WndRect);
+
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	plotter.SetRS(SpcRect);
+	SetMyMode(*dc, SpcRect, WndRect, mode);
+	plotter.Draw(*dc, false);
+}
+void CtestView::DrawXSquare(CRect RW, int mode)
+{
+	pen.Set(PS_SOLID, 2, RGB(255, 0, 0));
+
+	CDC* dc = GetDC();
+	int vecLength = 20/0.25;
+	plotter.SetPenLine(pen);
+	
+	pen.Set(PS_SOLID, 2, RGB(0, 0, 255));
+	plotter.SetPenAxis(pen);
+
+	CMatrix Y = CMatrix(vecLength);
+	CMatrix X = CMatrix::RangeVector(-10, 10, 0.25);
+	for (int i = 0; i < vecLength - 1; i++)
+	{
+		Y(i) = pow(X(i), 2);
+	}
+
+	CRect WndRect = RW;
+	plotter.SetParams(X, Y, WndRect);
+
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	plotter.SetRS(SpcRect);
+	SetMyMode(*dc, SpcRect, WndRect, mode);
+	plotter.Draw(*dc, true);
+}
+void CtestView::OnLab3Sinx()
+{
+
+	//DrawSinX(CRect(350, 150, 550, 350), MM_TEXT);
+	RedrawWindow();
+	DrawSinX(CRect(150, 50, 450, 350), MM_TEXT);
+
+
+	// TODO: добавьте свой код обработчика команд
+}
+
+
+void CtestView::OnLab3XCube()
+{
+	RedrawWindow();
+	//DrawXCube(CRect(350, 150, 550, 350), MM_ANISOTROPIC);
+	DrawXCube(CRect(150, 50, 450, 350), MM_ANISOTROPIC);
+	// TODO: добавьте свой код обработчика команд
+}
+
+
+void CtestView::OnLab3SqrtXSinX()
+{
+	RedrawWindow();
+	DrawSqrtXSinX(CRect(150, 50, 450, 350), MM_TEXT);
+	// TODO: добавьте свой код обработчика команд
+}
+
+
+void CtestView::OnLab3XSquare()
+{
+	RedrawWindow();
+	//DrawXCube(CRect(350, 150, 550, 350), MM_ANISOTROPIC);
+	DrawXSquare(CRect(150, 50, 450, 350), MM_TEXT);
+	// TODO: добавьте свой код обработчика команд
+}
+
+
+void CtestView::OnLab3All()
+{
+	RedrawWindow();
+	DrawSinX      (CRect(50, 5, 150, 105), MM_ANISOTROPIC);
+	DrawXCube     (CRect(160, 50, 260, 155), MM_ANISOTROPIC);
+	DrawSqrtXSinX (CRect(50, 70, 150, 170), MM_ANISOTROPIC);
+	DrawXSquare	  (CRect(160, 120, 260, 220), MM_ANISOTROPIC);
+
+	// TODO: добавьте свой код обработчика команд
+}
+
+
+void CtestView::OnLab4Solarsystem()
+{	
+	CDC* dc = GetDC();
+	CWnd* wnd = this;
+	//СSunSystem ss;
+
+	//ss.DrawEndless(*dc);
+	AfxBeginThread(ThreadLab4SolarSystem, (LPVOID)  wnd);
+
+}
+
+UINT ThreadLab4SolarSystem(LPVOID param)
+{
+	CWnd *wnd = (CWnd*)param;
+	CDC *dc = wnd->GetDC();
+	СSunSystem ss;
+	ss.DrawEndless(*dc);
+
+	return 0;
+}
+
+
+void CtestView::OnLab6Function1()
+{
+	// TODO: добавьте свой код обработчика команд
+	double dx = 0.25, dy = 0.25;
+	//double 
+	r = 50, fi = 30, q = 45;
+	CRectD SpaceRect(-5, 5, 5, -5);
+	CRect  WinRect;
+	this->GetClientRect(WinRect);
+	WinRect.SetRect(WinRect.left + 50, WinRect.top + 50, WinRect.right - 50, WinRect.bottom - 50);
+	Graph1.SetFunction(Function1, SpaceRect, dx, dy);	// Function1 	
+	Graph1.SetViewPoint(r, fi, q);
+	Graph1.SetWinRect(WinRect);
+	Index = 1;
+	this->Invalidate();
+}
+
+
+void CtestView::OnLab6Function2()
+{
+	// TODO: добавьте свой код обработчика команд
+	double dx = 0.25, dy = 0.25;
+	//double r=50, fi=0, q=45;
+	r = 50, fi = 30, q = 45;
+	CRectD SpaceRect(-5, 5, 5, -5);
+	CRect  WinRect;
+	this->GetClientRect(WinRect);
+	WinRect.SetRect(WinRect.left + 50, WinRect.top + 50, WinRect.right - 50, WinRect.bottom - 50);
+	Graph2.SetFunction(Function2, SpaceRect, dx, dy);  // Function2 	
+	Graph2.SetViewPoint(r, fi, q);
+	Graph2.SetWinRect(WinRect);
+	Index = 2;
+	this->Invalidate();
+}
+
+
+void CtestView::OnLab6Function3()
+{
+	// TODO: добавьте свой код обработчика команд
+	double dx = 0.25, dy = 0.25;
+	//double r=50, fi=0, q=45;
+	r = 50, fi = 30, q = 45;
+	CRectD SpaceRect(-10, 10, 10, -10);
+	CRect  WinRect;
+	this->GetClientRect(WinRect);
+	WinRect.SetRect(WinRect.left + 50, WinRect.top + 50, WinRect.right - 50, WinRect.bottom - 50);
+
+	Graph3.SetFunction(Function3, SpaceRect, dx, dy);	// Function3 
+	Graph3.SetViewPoint(r, fi, q);
+	Graph3.SetWinRect(WinRect);
+	Index = 3;
+	this->Invalidate();
+}
+
+
+void CtestView::OnLab8Diffusesphere()
+{
+	// TODO: добавьте свой код обработчика команд
+	RW.SetRect(100, 50, 300, 250);					// Область в окне
+	Radius = 20;
+	PView(0) = 100;	PView(1) = 0;  PView(2) = 60;
+	PSourceLight(0) = 100;  PSourceLight(1) = 0; PSourceLight(2) = 0;
+	Color = RGB(255, 0, 0);
+	Ks = 1.0;
+	Index = 4;
+	TypeModel = 0;
+	InvalidateRect(NULL);
+}
+
+
+void CtestView::OnLab8Mirrorsphere()
+{
+	// TODO: добавьте свой код обработчика команд
+	RW.SetRect(100, 50, 300, 250);					// Область в окне
+	Radius = 20;
+	PView(0) = 100;	PView(1) = 0;  PView(2) = 60;
+	PSourceLight(0) = 100;  PSourceLight(1) = 0; PSourceLight(2) = 0;
+	Color = RGB(255, 255, 0);
+	Ks = 1.0;
+	Index = 4;
+	TypeModel = 1;
+	InvalidateRect(NULL);
+}
+
+
+void CtestView::OnLab9Bezier()
+{
+	// TODO: добавьте свой код обработчика команд
+	double dt = pi / 4;
+	int N = 9;
+	X.RedimMatrix(N);
+	Y.RedimMatrix(N);
+	//*
+	for (int i = 0; i < N; i++)
+	{
+		X(i) = i * dt;
+		Y(i) = sin(i * dt);
+	}
+	//*/
+
+
+	/*
+	X(0)=0;		X(1)=1;		X(2)=2;		X(3)=3;
+	Y(0)=0;		Y(1)=1;		Y(2)=1;		Y(3)=0;
+
+	X(4)=4;		X(5)=5;		X(6)=6;
+	Y(4)=-1;	Y(5)=-1;	Y(6)=0;
+*/
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	Graph.SetRS(SpcRect);
+
+	N_Bezier = 50;
+	RW.SetRect(100, 50, 500, 350);
+	Graph.SetParams(X, Y, RW);
+	Index = 5;
+	this->Invalidate();
+}
+
+
+void CtestView::OnLab9Lagr()
+{
+	// TODO: добавьте свой код обработчика команд
 }
