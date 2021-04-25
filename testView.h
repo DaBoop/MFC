@@ -111,6 +111,10 @@ public:
 	afx_msg void OnLab8Mirrorsphere();
 	afx_msg void OnLab9Bezier();
 	afx_msg void OnLab9Lagr();
+	afx_msg void OnLab9Bezier2();
+	afx_msg void OnLab9Bezier3();
+	afx_msg void OnLab9Bezier4();
+	afx_msg double Lagr(CMatrix& X, CMatrix& Y, double x, int size);
 };
 
 #ifndef _DEBUG  // версия отладки в testView.cpp

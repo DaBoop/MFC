@@ -50,6 +50,9 @@ BEGIN_MESSAGE_MAP(CtestView, CView)
 	ON_COMMAND(ID_LAB8_MIRRORSPHERE, &CtestView::OnLab8Mirrorsphere)
 	ON_COMMAND(ID_LAB9_BEZIER, &CtestView::OnLab9Bezier)
 	ON_COMMAND(ID_LAB9_LAGR, &CtestView::OnLab9Lagr)
+	ON_COMMAND(ID_LAB9_BEZIER2, &CtestView::OnLab9Bezier2)
+	ON_COMMAND(ID_LAB9_BEZIER3, &CtestView::OnLab9Bezier3)
+	ON_COMMAND(ID_LAB9_BEZIER4, &CtestView::OnLab9Bezier4)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение CtestView
@@ -101,14 +104,15 @@ void CtestView::OnDraw(CDC* /*pf*/)
 	}
 	if (Index == 5)
 	{
-		// Одна линия		
-		PenLine.Set(PS_SOLID, 0, RGB(0, 0, 0));
-		Graph.SetPenLine(PenLine);
-		Graph.Draw(*dc, true);
-		// Вторая линия линия		
 		PenLine.Set(PS_SOLID, 2, RGB(255, 0, 0));
 		Graph.SetPenLine(PenLine);
 		Graph.DrawBezier(*dc, N_Bezier);
+	}
+	if (Index == 6)
+	{
+		PenLine.Set(PS_SOLID, 2, RGB(255, 0, 0));
+		Graph.SetPenLine(PenLine);
+		Graph.DrawWnd(*dc, false);
 	}
 
 
@@ -607,27 +611,74 @@ void CtestView::OnLab8Mirrorsphere()
 
 void CtestView::OnLab9Bezier()
 {
-	// TODO: добавьте свой код обработчика команд
-	double dt = pi / 4;
-	int N = 9;
-	X.RedimMatrix(N);
-	Y.RedimMatrix(N);
-	//*
-	for (int i = 0; i < N; i++)
-	{
-		X(i) = i * dt;
-		Y(i) = sin(i * dt);
-	}
-	//*/
+	X.RedimMatrix(4);
+	Y.RedimMatrix(4);
 
 
-	/*
-	X(0)=0;		X(1)=1;		X(2)=2;		X(3)=3;
-	Y(0)=0;		Y(1)=1;		Y(2)=1;		Y(3)=0;
+	X(0) = 0;		X(1) = 10;		X(2) = 20;		X(3) = 30;
+	Y(0) = 0;		Y(1) = 10;		Y(2) = -10;		Y(3) = 0;
 
-	X(4)=4;		X(5)=5;		X(6)=6;
-	Y(4)=-1;	Y(5)=-1;	Y(6)=0;
-*/
+
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	Graph.SetRS(SpcRect);
+
+	N_Bezier = 50;
+	RW.SetRect(100, 50, 500, 350);
+	Graph.SetParams(X, Y, RW);
+	Index = 5;
+	this->Invalidate();
+}
+
+void CtestView::OnLab9Bezier2()
+{
+	// TODO: Add your command handler code here
+	X.RedimMatrix(4);
+	Y.RedimMatrix(4);
+
+	X(0) = 0;		X(1) = 10;		X(2) = 17;		X(3) = 20; 
+	Y(0) = 0;		Y(1) = 10;		Y(2) = 10;		Y(3) = 0;
+
+		
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	Graph.SetRS(SpcRect);
+
+	N_Bezier = 50;
+	RW.SetRect(100, 50, 500, 350);
+	Graph.SetParams(X, Y, RW);
+	Index = 5;
+	this->Invalidate();
+}
+
+
+void CtestView::OnLab9Bezier3()
+{
+	// TODO: Add your command handler code here
+	X.RedimMatrix(4);
+	Y.RedimMatrix(4);
+
+	X(0) = 0;		X(1) = 10;		X(2) = 10;		X(3) = 20;
+	Y(0) = 0;		Y(1) = 10;		Y(2) = 10;		Y(3) = 0;
+
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	Graph.SetRS(SpcRect);
+
+	N_Bezier = 50;
+	RW.SetRect(100, 50, 500, 350);
+	Graph.SetParams(X, Y, RW);
+	Index = 5;
+	this->Invalidate();
+}
+
+
+void CtestView::OnLab9Bezier4()
+{
+	// TODO: Add your command handler code here
+	X.RedimMatrix(4);
+	Y.RedimMatrix(4);
+
+	X(0) = 0;		X(1) = 20;		X(2) = -10;		X(3) = 10;
+	Y(0) = 0;		Y(1) = 20;		Y(2) = 20;		Y(3) = 0;
+
 	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
 	Graph.SetRS(SpcRect);
 
@@ -641,5 +692,60 @@ void CtestView::OnLab9Bezier()
 
 void CtestView::OnLab9Lagr()
 {
+	double dx = pi / 4;
+
+	double xL = 0;
+	double xH = pi;
+
+	int N = (xH - xL) / dx;
+	
+	X.RedimMatrix(N + 1);
+	Y.RedimMatrix(N + 1);
+
+	
+
+	for (int i = 0; i <= N; i++)
+	{
+		X(i) = xL + i * dx;
+		Y(i) = pow(2 + cos(X(i)), sin(2 * X(i)));
+	}
+
+	CDoubleRect SpcRect = CDoubleRect(X.MinElement(), Y.MaxElement(), X.MaxElement(), Y.MinElement());
+	Graph.SetRS(SpcRect);
+
+	dx = 0.1;
+	int NL = (xH - xL) / dx;
+	CMatrix XL(NL + 1);
+	CMatrix YL(NL + 1);
+
+	for (int i = 0; i <= NL; i++)
+	{
+		XL(i) = xL + i * dx;
+		YL(i) = Lagr(X, Y, XL(i), N + 1);
+	}
+	RW.SetRect(100, 50, 500, 350);
+	Graph.SetParams(XL, YL, RW);
+	Index = 6;
+
+	this->Invalidate();
+
 	// TODO: добавьте свой код обработчика команд
+}
+
+double CtestView::Lagr(CMatrix& X, CMatrix& Y, double x, int size) 
+{
+	double lagrange_pol = 0;
+	double basics_pol;
+
+	for (int i = 0; i < size; i++)
+	{
+		basics_pol = 1;
+		for (int j = 0; j < size; j++)
+		{
+			if (j == i) continue;
+			basics_pol *= (x - X(j)) / (X(i) - X(j));
+		}
+		lagrange_pol += basics_pol * Y(i);
+	}
+	return lagrange_pol;
 }

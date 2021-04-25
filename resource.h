@@ -1,6 +1,6 @@
 ﻿//{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется test.rc
+// Microsoft Visual C++ generated include file.
+// Used by test.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDR_MAINFRAME                   128
@@ -40,13 +40,17 @@
 #define ID_LAB9                         32794
 #define ID_LAB9_BEZIER                  32795
 #define ID_LAB9_LAGR                    32796
+#define ID_LAB9_BEZIER2                 32797
+#define ID_LAB9_BEZIER3                 32798
+#define ID_LAB9_BEZIER4                 32799
+#define ID_LAB7                         32800
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        310
-#define _APS_NEXT_COMMAND_VALUE         32797
+#define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
